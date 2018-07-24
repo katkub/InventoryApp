@@ -1,0 +1,105 @@
+<!-- Layout for the editor -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditorActivity"
+    tools:targetApi="lollipop">
+
+    <LinearLayout
+        style="@style/layout">
+
+        <!-- Label for product name -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/product_name" />
+
+        <!-- Name field -->
+        <EditText
+            android:id="@+id/edit_product_name"
+            style="@style/EditorFieldStyle"
+            android:hint="@string/hint_product_name"
+            android:inputType="" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout">
+
+        <!-- Label of product price-->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/product_price" />
+
+        <!-- Price field -->
+        <EditText
+            android:id="@+id/edit_product_price"
+            style="@style/EditorFieldStyle"
+            android:hint="@string/hint_product_price"
+            android:inputType="" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout">
+
+        <!-- Label for quantity -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/category_quantity" />
+
+        <!-- Quantity increment/decrement -->
+        <LinearLayout
+            style="@style/EditorFieldStyle">
+
+            <Button
+                style="@style/Quantity"
+                android:onClick="decrement"
+                android:text="-"
+                android:background="@color/colorAccent"/>
+
+            <TextView
+                style="@style/Quantity"
+                android:id="@+id/quantity_edit_text" />
+
+            <Button
+                android:id="@+id/sale"
+                style="@style/Quantity"
+                android:onClick="increment"
+                android:text="+"
+                android:background="@color/colorAccent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout">
+
+        <!-- Label for supplier name -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/category_supplier_name" />
+
+        <!-- Supplier name field -->
+        <EditText
+            android:id="@+id/edit_supplier_name"
+            style="@style/EditorFieldStyle"
+            android:hint="@string/hint_supplier_name"
+            android:inputType="" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout">
+
+        <!-- Label for supplier phone -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/category_supplier_phone" />
+
+        <!-- Supplier phone -->
+        <EditText
+            android:id="@+id/edit_supplier_phone"
+            style="@style/EditorFieldStyle"
+            android:inputType=""
+            android:hint="@string/hint_supplier_phone" />
+    </LinearLayout>
+</LinearLayout>

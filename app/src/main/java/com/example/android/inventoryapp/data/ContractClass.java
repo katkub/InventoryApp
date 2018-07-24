@@ -1,9 +1,12 @@
-package com.example.android.inventoryapp;
+package com.example.android.inventoryapp.data;
 
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * API Contract for the Inventory app.
+ */
 public final class ContractClass {
 
     // To prevent someone from accidentally instantiating the contract class,
@@ -61,13 +64,6 @@ public final class ContractClass {
         public final static String TABLE_NAME = "inventoryTable";
 
         /**
-         * Unique ID number for the inventory (only for use in the database table).
-         * <p>
-         * Type: INTEGER
-         */
-        public final static String _ID = BaseColumns._ID;
-
-        /**
          * Product Name
          * <p>
          * Type: TEXT
@@ -101,5 +97,6 @@ public final class ContractClass {
          * Type: TEXT
          */
         public final static String COLUMN_SUPPLIER_PHONE_NUMBER = "supplierPhoneNumber";
+
     }
 }

@@ -1,4 +1,4 @@
-package com.example.android.inventoryapp;
+package com.example.android.inventoryapp.data;
 
 import android.annotation.SuppressLint;
 import android.content.ContentProvider;
@@ -14,10 +14,10 @@ import android.util.Log;
 
 import java.util.Objects;
 
-import com.example.android.inventoryapp.ContractClass.InventoryEntry;
+import com.example.android.inventoryapp.data.ContractClass.InventoryEntry;
 
 /**
- * {@link ContentProvider} for Pets app.
+ * {@link ContentProvider} for Inventory app.
  */
 public class InventoryProvider extends ContentProvider {
 
@@ -119,7 +119,15 @@ public class InventoryProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case INVENTORY:
+                return InventoryEntry.CONTENT_LIST_TYPE;
+            case PRODUCT_ID:
+                return InventoryEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+        }
     }
 
     @Nullable
@@ -145,6 +153,18 @@ public class InventoryProvider extends ContentProvider {
         String name = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
             throw new IllegalArgumentException("Product requires a name");
+        }
+
+        // Check that the price is not null
+        String price = values.getAsString(InventoryEntry.COLUMN_PRODUCT_PRICE);
+        if (price == null) {
+            throw new IllegalArgumentException("Product requires a price");
+        }
+
+        // Check that the price is not null
+        Integer quantity = values.getAsInteger(InventoryEntry.COLUMN_PRODUCT_QUANTITY);
+        if (quantity == null) {
+            throw new IllegalArgumentException("Product requires a quantity");
         }
 
         // Get writeable database

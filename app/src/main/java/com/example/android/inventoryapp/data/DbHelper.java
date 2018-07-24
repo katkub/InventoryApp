@@ -1,17 +1,15 @@
-package com.example.android.inventoryapp;
+package com.example.android.inventoryapp.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.inventoryapp.ContractClass.InventoryEntry;
+import com.example.android.inventoryapp.data.ContractClass.InventoryEntry;
 
 /**
  * Database helper for Inventory App. Manages database creation and version management.
  */
 public class DbHelper extends SQLiteOpenHelper {
-
-    public static final String LOG_TAG = DbHelper.class.getSimpleName();
 
     /** Name of the database file */
     private static final String DATABASE_NAME = "inventory.db";
@@ -39,8 +37,8 @@ public class DbHelper extends SQLiteOpenHelper {
        String SQL_CREATE_INVENTORY_TABLE = "CREATE TABLE " + InventoryEntry.TABLE_NAME + " ("
                + InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                + InventoryEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
-               + InventoryEntry.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL, "
-               + InventoryEntry.COLUMN_PRODUCT_QUANTITY + " INTEGER NOT NULL, "
+               + InventoryEntry.COLUMN_PRODUCT_PRICE + " TEXT NOT NULL, "
+               + InventoryEntry.COLUMN_PRODUCT_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
                + InventoryEntry.COLUMN_SUPPLIER_NAME + " TEXT, "
                + InventoryEntry.COLUMN_SUPPLIER_PHONE_NUMBER + " TEXT);";
 
