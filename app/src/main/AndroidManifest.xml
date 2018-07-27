@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.inventoryapp">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditorActivity"
+            android:name=".AddActivity"
             android:label="@string/editor_activity_title_new_product"
             android:parentActivityName=".MainActivity"
             android:theme="@style/EditorTheme"

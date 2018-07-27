@@ -34,7 +34,7 @@ public final class ContractClass {
      * looking at inventory data. content://com.example.android.inventoryapp/staff/ will fail,
      * as the ContentProvider hasn't been given any information on what to do with "staff".
      */
-    public static final String PATH_INVENTORY = "inventory";
+    public static final String PATH_INVENTORY = InventoryEntry.TABLE_NAME;
 
     /**
      * Inner class that defines constant values for the inventory database table.

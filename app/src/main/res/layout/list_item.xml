@@ -2,20 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:weightSum="2">
+    android:weightSum="2"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_margin="5dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/name"
             style="@style/Style1"
-            android:textAllCaps="true"/>
+            android:textAllCaps="true" />
 
         <TextView
             android:id="@+id/summary"
@@ -25,17 +27,18 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_margin="5dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/quantityNumber"
             style="@style/Style2" />
+
         <Button
             android:id="@+id/sale"
-            android:background="@color/labels"
             style="@style/Style2"
-            android:text="@string/sale"/>
+            android:background="@color/labels"
+            android:text="@string/sale" />
     </LinearLayout>
 </LinearLayout>

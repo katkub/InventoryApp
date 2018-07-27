@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".EditorActivity"
+    tools:context=".AddActivity"
     tools:targetApi="lollipop">
 
     <LinearLayout
@@ -99,7 +99,7 @@
         <EditText
             android:id="@+id/edit_supplier_phone"
             style="@style/EditorFieldStyle"
-            android:inputType=""
+            android:inputType="phone"
             android:hint="@string/hint_supplier_phone" />
     </LinearLayout>
 </LinearLayout>

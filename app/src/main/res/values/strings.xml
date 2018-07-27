@@ -17,13 +17,12 @@
     <string name="action_delete_all_entries">Delete All Inventory</string>
 
     <!-- Label for delete message [CHAR LIMIT=20] -->
-    <string name="deleted_all">Successfully deleted all products!</string>
+    <string name="deleted_all">Successfully deleted products:</string>
 
     <!-- Title for the activity to add a new product [CHAR LIMIT=20] -->
     <string name="editor_activity_title_new_product">Add a Product</string>
 
     <!-- Title for the activity to edit an existing product [CHAR LIMIT=20] -->
-    <string name="editor_activity_title_edit_product">Edit Product</string>
 
     <!-- Title for the view activity [CHAR LIMIT=20] -->
     <string name="view_activity_title">Product Details</string>
@@ -71,10 +70,6 @@
     <string name="hint_supplier_phone">Phone number</string>
 
     <!-- For call button in viewActivity [CHAR LIMIT=30] -->
-    <string name="call">Call to Supplier</string>
-
-    <!-- Unknown product price [CHAR LIMIT=25] -->
-    <string name="unknown_product_price">Price: unknown</string>
 
     <!-- Sale button [CHAR LIMIT=25] -->
     <string name="sale">SALE</string>
@@ -115,16 +110,16 @@
     <string name="cancel">Cancel</string>
 
     <!-- Required messages for product "add" -->
-    <string name="product_name_required">Product name is required</string>
-    <string name="price_required">Product price is required</string>
-    <string name="quantity_required">Product quantity is required</string>
-
-    <!-- Messages for update product -->
-    <string name="update_failed">Update: failed!</string>
-    <string name="update_successful">Update: successful!</string>
+    <string name="product_info_required">Product info is required</string>
 
     <!-- Increment message -->
     <string name="increment">You can not add more than 100 quantity of product</string>
+
     <!-- Decrement message -->
-    <string name="decrement">You can not have less than 0 quantity of product</string>
+    <string name="decrement">You can not have less than 1 quantity of product</string>
+
+    <!-- Button sale messages -->
+    <string name="saleSuc">Product bought successfully</string>
+    <string name="saleEr">Problem with sale</string>
+
 </resources>

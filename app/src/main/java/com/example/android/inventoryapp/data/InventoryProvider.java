@@ -247,6 +247,12 @@ public class InventoryProvider extends ContentProvider {
      */
     @SuppressLint("NewApi")
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
         // If the {@link InventoryEntry#COLUMN_PRODUCT_NAME} key is present,
         // check that the name value is not null.
         if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_NAME)) {
@@ -276,10 +282,7 @@ public class InventoryProvider extends ContentProvider {
             }
         }
 
-        // If there are no values to update, then don't try to update the database
-        if (values.size() == 0) {
-            return 0;
-        }
+        // No need to check the supplier's name and phone number, any value is valid.
 
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = dbHelper.getWritableDatabase();

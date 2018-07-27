@@ -88,10 +88,4 @@
     </style>
 
     <!-- Style for activityView LinearLayouts -->
-    <style name="layoutViewActivity">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:weightSum">2</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
 </resources>

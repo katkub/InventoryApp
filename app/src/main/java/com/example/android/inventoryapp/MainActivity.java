@@ -2,7 +2,6 @@ package com.example.android.inventoryapp;
 
 import android.app.LoaderManager;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,12 +38,12 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Setup FAB to open EditorActivity
+        // Setup FAB to open AddActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
                 startActivity(intent);
             }
         });
@@ -65,9 +63,10 @@ public class MainActivity extends AppCompatActivity implements
         // Setup the item click listener
         inventoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // Create new intent to go to {@link ViewActivity}
                 Intent intent = new Intent(MainActivity.this, ViewActivity.class);
+
 
                 // Form the content URI that represents the specific product that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
         // Kick off the loader
-        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
+        getLoaderManager().initLoader(INVENTORY_LOADER, null, MainActivity.this);
     }
 
     @Override
@@ -114,9 +113,7 @@ public class MainActivity extends AppCompatActivity implements
                 InventoryEntry._ID,
                 InventoryEntry.COLUMN_PRODUCT_NAME,
                 InventoryEntry.COLUMN_PRODUCT_PRICE,
-                InventoryEntry.COLUMN_PRODUCT_QUANTITY,
-                InventoryEntry.COLUMN_SUPPLIER_NAME,
-                InventoryEntry.COLUMN_SUPPLIER_PHONE_NUMBER};
+                InventoryEntry.COLUMN_PRODUCT_QUANTITY};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,       // Parent activity context
@@ -144,19 +141,6 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
-        Toast.makeText(this, rowsDeleted + " " + getString(R.string.deleted_all), Toast.LENGTH_SHORT).show();
-    }
-
-    public void saleCount(Integer productId, Integer productQuantity) {
-        productQuantity = productQuantity - 1;
-        if (productQuantity >= 0) {
-            ContentValues values = new ContentValues();
-            values.put(InventoryEntry.COLUMN_PRODUCT_QUANTITY, productQuantity);
-            Uri updateUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, productId);
-            int rowsAffected = getContentResolver().update(updateUri, values, null, null);
-            Toast.makeText(this, "Quantity deleted: "+rowsAffected, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Product not available", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, getString(R.string.deleted_all) + " " + rowsDeleted, Toast.LENGTH_SHORT).show();
     }
 }

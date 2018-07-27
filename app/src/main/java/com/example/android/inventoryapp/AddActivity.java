@@ -2,13 +2,9 @@ package com.example.android.inventoryapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.LoaderManager;
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -28,13 +24,7 @@ import com.example.android.inventoryapp.data.ContractClass.InventoryEntry;
 /**
  * Allows user to create a new product or edit an existing one.
  */
-public class EditorActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
-
-    /**
-     * Identifier for the inventory data loader
-     */
-    private static final int EXISTING_INVENTORY_LOADER = 0;
+public class AddActivity extends AppCompatActivity {
 
     /**
      * Content URI for the existing product (null if it's a new product)
@@ -90,6 +80,7 @@ public class EditorActivity extends AppCompatActivity implements
     };
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,17 +96,6 @@ public class EditorActivity extends AppCompatActivity implements
         if (mCurrentProductUri == null) {
             // This is a new product, so change the app bar to say "Add a Product"
             setTitle(getString(R.string.editor_activity_title_new_product));
-
-            // Invalidate the options menu, so the "Delete" menu option can be hidden.
-            // (It doesn't make sense to delete a product that hasn't been created yet.)
-            invalidateOptionsMenu();
-        } else {
-            // Otherwise this is an existing product, so change app bar to say "Edit Product"
-            setTitle(getString(R.string.editor_activity_title_edit_product));
-
-            // Initialize a loader to read the inventory data from the database
-            // and display the current values in the editor
-            getLoaderManager().initLoader(EXISTING_INVENTORY_LOADER, null, this);
         }
 
         // Find all relevant views that we will need to read user input from
@@ -148,70 +128,37 @@ public class EditorActivity extends AppCompatActivity implements
         String phoneString = mSupplierEditText.getText().toString().trim();
 
         // Messages for required fields
-        if (TextUtils.isEmpty(nameString)) {
-            Toast.makeText(this, getString(R.string.product_name_required), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(priceString)) {
-            Toast.makeText(this, getString(R.string.price_required), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(quantityString)) {
-            Toast.makeText(this, getString(R.string.quantity_required), Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(priceString) || TextUtils.isEmpty(quantityString)) {
+            Toast.makeText(this, R.string.product_info_required, Toast.LENGTH_SHORT).show();
 
-        // Create a ContentValues object where column names are the keys,
-        // and product attributes from the editor are the values.
-        ContentValues values = new ContentValues();
-        values.put(InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
-        values.put(InventoryEntry.COLUMN_PRODUCT_PRICE, priceString);
-        values.put(InventoryEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
-        values.put(InventoryEntry.COLUMN_SUPPLIER_NAME, supplierString);
-        values.put(InventoryEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneString);
-
-        // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
-        if (mCurrentProductUri == null) {
-            // This is a NEW product, so insert a new product into the provider,
-            // returning the content URI for the new product.
-            Uri newUri = getContentResolver().insert(ContractClass.InventoryEntry.CONTENT_URI, values);
-
-            // Show a toast message depending on whether or not the insertion was successful.
-            if (newUri == null) {
-                // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(this, getString(R.string.editor_insert_product_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_insert_product_successful),
-                        Toast.LENGTH_SHORT).show();
-            }
         } else {
-            // Otherwise this is an EXISTING product, so update the product with content URI: mCurrentProductUri
-            // and pass in the new ContentValues. Pass in null for the selection and selection args
-            // because mCurrentProductUri will already identify the correct row in the database that
-            // we want to modify.
-            int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
 
-            // Show a toast message depending on whether or not the update was successful.
-            if (rowsAffected == 0) {
-                // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, getString(R.string.editor_update_product_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_update_product_successful),
-                        Toast.LENGTH_SHORT).show();
-            }
-            if (rowsAffected == 0) {
-                Toast.makeText(this, getString(R.string.update_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, getString(R.string.update_successful),
-                        Toast.LENGTH_SHORT).show();
-                finish();
-            }
+            // Create a ContentValues object where column names are the keys,
+            // and product attributes from the editor are the values.
+            ContentValues values = new ContentValues();
+            values.put(InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
+            values.put(InventoryEntry.COLUMN_PRODUCT_PRICE, priceString);
+            values.put(InventoryEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
+            values.put(InventoryEntry.COLUMN_SUPPLIER_NAME, supplierString);
+            values.put(InventoryEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneString);
 
+            // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
+            if (mCurrentProductUri == null) {
+                // This is a NEW product, so insert a new product into the provider,
+                // returning the content URI for the new product.
+                Uri newUri = getContentResolver().insert(ContractClass.InventoryEntry.CONTENT_URI, values);
+
+                // Show a toast message depending on whether or not the insertion was successful.
+                if (newUri == null) {
+                    // If the new content URI is null, then there was an error with insertion.
+                    Toast.makeText(this, getString(R.string.editor_insert_product_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, the insertion was successful and we can display a toast.
+                    Toast.makeText(this, getString(R.string.editor_insert_product_successful),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
@@ -259,8 +206,7 @@ public class EditorActivity extends AppCompatActivity implements
                 // If the product hasn't changed, continue with navigating up to parent activity
                 // which is the {@link MainActivity}.
                 if (!mProductHasChanged) {
-                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
-
+                    NavUtils.navigateUpFromSameTask(AddActivity.this);
                     return true;
                 }
                 // Otherwise if there are unsaved changes, setup a dialog to warn the user.
@@ -271,7 +217,7 @@ public class EditorActivity extends AppCompatActivity implements
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // User clicked "Discard" button, navigate to parent activity.
-                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                                NavUtils.navigateUpFromSameTask(AddActivity.this);
                             }
                         };
 
@@ -306,70 +252,6 @@ public class EditorActivity extends AppCompatActivity implements
 
         // Show dialog that there are unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        // Since the editor shows all inventory attributes, define a projection that contains
-        // all columns from the inventory table
-        String[] projection = {
-                InventoryEntry._ID,
-                InventoryEntry.COLUMN_PRODUCT_NAME,
-                InventoryEntry.COLUMN_PRODUCT_PRICE,
-                InventoryEntry.COLUMN_PRODUCT_QUANTITY,
-                InventoryEntry.COLUMN_SUPPLIER_NAME,
-                InventoryEntry.COLUMN_SUPPLIER_PHONE_NUMBER};
-
-        // This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(this,       // Parent activity context
-                mCurrentProductUri,                 // Query the content URI for the current pet
-                projection,                         // Columns to include in the resulting Cursor
-                null,                      // No selection clause
-                null,                  // No selection arguments
-                null);                   // Default sort order
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        // Bail early if the cursor is null or there is less than 1 row in the cursor
-        if (cursor == null || cursor.getCount() < 1) {
-            return;
-        }
-        // Proceed with moving to the first row of the cursor and reading data from it
-        // (This should be the only row in the cursor)
-        if (cursor.moveToFirst()) {
-            // Find the columns of product attributes that we're interested in
-            int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_QUANTITY);
-            int supplierColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_SUPPLIER_NAME);
-            int phoneColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
-
-            // Extract out the value from the Cursor for the given column index
-            String name = cursor.getString(nameColumnIndex);
-            String price = cursor.getString(priceColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
-            String supplier = cursor.getString(supplierColumnIndex);
-            String phone = cursor.getString(phoneColumnIndex);
-
-            // Update the views on the screen with the values from the database
-            mNameEditText.setText(name);
-            mPriceEditText.setText(price);
-            mQuantity.setText(Integer.toString(quantity));
-            mSupplierEditText.setText(supplier);
-            mPhoneEditText.setText(phone);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        // If the loader is invalidated, clear out all the data from the input fields.
-        mNameEditText.setText("");
-        mPriceEditText.setText("");
-        mQuantity.setText("");
-        mSupplierEditText.setText("");
-        mPhoneEditText.setText("");
     }
 
     /**
@@ -485,4 +367,5 @@ public class EditorActivity extends AppCompatActivity implements
     private void displayQuantity(int number) {
         mQuantity.setText("" + number);
     }
+
 }
