@@ -121,5 +121,6 @@
     <!-- Button sale messages -->
     <string name="saleSuc">Product bought successfully</string>
     <string name="saleEr">Problem with sale</string>
+    <string name="saleNull">Sorry, we do not have this product on stock.</string>
 
 </resources>

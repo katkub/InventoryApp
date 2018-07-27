@@ -101,7 +101,6 @@ public class ViewActivity extends AppCompatActivity implements android.app.Loade
             @Override
             public void onClick(View view) {
                 showDeleteConfirmationDialog();
-                deleteProduct();
             }
         });
 

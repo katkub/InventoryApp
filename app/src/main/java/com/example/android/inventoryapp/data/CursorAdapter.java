@@ -110,8 +110,10 @@ public class CursorAdapter extends android.widget.CursorAdapter {
             } else {
                 // Otherwise, the sale was successful and we can display a toast.
                 Toast.makeText(context, R.string.saleSuc, Toast.LENGTH_SHORT).show();
-
             }
+        } if (quantity ==0){
+            // Show toast
+            Toast.makeText(context, R.string.saleNull, Toast.LENGTH_SHORT).show();
         }
     }
 }
